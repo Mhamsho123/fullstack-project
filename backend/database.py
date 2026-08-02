@@ -1,0 +1,32 @@
+from sqlalchemy.orm.session import Session
+import os
+from dotenv import load_dotenv
+
+
+from sqlalchemy import create_engine  
+from sqlalchemy.orm import sessionmaker
+
+
+DATABASE_URL = os.getemv("DATABASE_URL")
+
+engine = create_engine(
+    DATABASE_URL, 
+    echo=True,
+    connect_args={"check_same_thread": False}
+    )
+
+SessionLocal = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    autocommit=False,
+)
+
+
+def get_db():
+    db = SessionLocal()
+
+    try:
+        yield db
+
+    finally:
+        db.close()
