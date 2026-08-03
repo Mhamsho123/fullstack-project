@@ -1,4 +1,3 @@
-from sqlalchemy.orm.session import Session
 import os
 from dotenv import load_dotenv
 
